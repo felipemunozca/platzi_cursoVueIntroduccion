@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--  
+        N_3.1: Para poder desarrollar los ejercicios del curso, se debe cambiar la url del cdn que utiliza el profesor, ya que 
+            no es la misma que en la version actual de Vue 3.
+        Dentro de la documentación de Vue se encuentra la nueva ruta al CDN.
+    -->
+    <!-- <script src="https://unpkg.com/vue@next"></script> url antigua -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <div id="app">{{ message }}</div>
+
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    message: 'Hello Vue!'
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

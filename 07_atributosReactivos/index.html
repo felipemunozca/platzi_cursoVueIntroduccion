@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07 - Atributos reactivos</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!--  
+        N_7.1: Reutilizamos el código de clases anteriores, pero esta vez en vez de imprimir un texto, se agrega una imagen dentro del div app.
+    -->
+    <div id="app"></div>
+    
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    text: "<p>Hola con Vue</p>"
+                };
+            },
+        }).mount("#app");
+        console.log(vm);
+    </script>
+</body>
+</html>

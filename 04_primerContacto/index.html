@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04 - Primer Contacto</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- 
+        N_4.1: Lo primero sera crear un elemento HTML el cual contendrá los componentes desarrollados con Vue js.
+
+        N_4.2: Se crea un elemento <div> y se le agrega un id único.
+
+        N_4.5: Para utilizar el componente, la forma de hacerlo es utilizando doble llave {{ }} y dentro ira un valor a retornar, en este caso, el texto.
+    -->
+    <div id="app">{{ text }}</div>
+    <!--  
+        N_4.3: Dentro de las etiquetas <script> se puede comenzar a crear código JavaScript para ejecutar Vue.
+        Lo primero es crear una constante que sera igual a la función Vue.createApp().mount();
+        createApp() -> se encarga de tomar la instancia de Vue y generar una nueva aplicación.
+        mount() -> función que se encarga de montar el contenido dentro de un id seleccionado.
+
+        N_4.4: Dentro de la función createApp() se utiliza un json {} para describir nuestra aplicación a partir de variables o funciones que Vue reconoce (a esto se le llama options API).
+        data() -> es una función que SIEMPRE va a retornar un objeto en json {}. Puede ser cualquier valor, cualquier variable o un objeto anidado, en este caso, sera un texto.
+    -->
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    text: "Hola con Vue"
+                };
+            }
+        }).mount("#app");
+
+        /**
+         * N_4.6: Se puede imprimir en la consola el componente completo, para revisar como se esta construyendo. De hecho, desde la consola del navegador se puede modificar el valor de la constante escribiendo:
+         * vm.text = "Texto editado en la consola"
+         * El texto se actualizara al instante sin tener que realizar ningún cambio mas.
+         */
+        console.log(vm);
+    </script>
+</body>
+</html>

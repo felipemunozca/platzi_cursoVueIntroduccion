@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06 - Interpolación de datos</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!--  
+        N_6.1: Se mantiene el ejercicio de la clase 4.
+        La linea donde se declara el div con el id "app" con las dobles llaves {{ }} es la vista o el "template" del componente que estamos creando.
+        Sin embargo, existe una forma que se utiliza mucho mas y es crear un template por cada componente individual dentro de nuestra aplicación.
+        
+        N_6.3: Se quitan las llaves dentro del div "app" ya que ahora el texto se agregara utilizando directivas.
+    -->
+    <div id="app"></div>
+    
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    text: "<p>Hola con Vue</p>"
+                };
+            },
+            /**
+             * N_6.2: Dentro de la configuración del componente, se agrega el uso de "options template".
+             * Se agrega la variable "template:" y se le asigna una cadena de texto que puede ser de una o multiples lineas.
+             * Va a contener código HTML y debe ser declarado dentro de comillas francesas `` y dentro podremos utilizar DIRECTIVAS de Vue.
+             * Las directivas son atributos que extienden el HTML y nos permiten agregan cierta funcionalidad adicional a nuestro componentes.
+             * 
+             * N_6.4: Dentro del template agrego cualquier elemento HTML.
+             * Ahora puedo agregar directamente la variable text para poder imprimir el mensaje desde aquí.
+             * Si se abre el navegador debería mostrar el mensaje.
+             */
+            // template: `<div>{{ text }}</div>`,
+            
+            /**
+             * N_6.5: Otra forma de realizar este mismo ejemplo, es utilizando las directivas de Vue.
+             * La directiva mas básica que podemos utilizar es la de "interpolación de texto". (No es necesario utilizar dobles llaves).
+             * IMPORTANTE: Las directivas de Vue tienen como regla siempre empezaran con "v-" y el resto de nombre de la directiva. A continuación pueden recibir cualquier argumento que necesiten, en este caso, dentro de las comillas, se agrega el valor del texto a imprimir en pantalla.
+             * 
+             * N_6.6: Para realizar una prueba de que si esta funcionando el código dinámico, en el navegador con la aplicación abrir la consola y escribir el siguiente comando:
+             * > vm.text = "texto de prueba para cambiar"
+             * Presionar enter y debería cambiar el texto de la pantalla.
+            */
+            // template: `<div v-html="text"></div>`,
+
+            /**
+             * N_6.7: Existe otra directiva llamada v-once.
+             * v-once lo que hace es modificar la renderización reactiva de Vue, es decir, se va a renderizar la primera vez pero si yo cambio el valor de la variable text, dejaría de actualizarse.
+             * Repetimos la prueba del punto anterior, abrir la consola del navegador y al usar la tecla hacia arriba, debería estar el comando escrito, presionar enter. Si el texto no cambia demuestra que la directiva funciona.
+             */
+            // template: `<div v-once v-html="text"></div>`,
+            
+            /**
+             * N_6.8: Volvemos a repasar la directiva v-html.
+             * v-html es parecida a v-text pero la gran diferencia es que permite ademas de agregar valores en texto, podemos agregar código HTML.
+             */
+            template: `<div v-html="text"></div>`
+        }).mount("#app");
+        console.log(vm);
+    </script>
+</body>
+</html>
+
+<!--  
+    N_6.9: Documentación oficial con las directivas:
+    https://vuejs.org/api/built-in-directives.html
+-->
