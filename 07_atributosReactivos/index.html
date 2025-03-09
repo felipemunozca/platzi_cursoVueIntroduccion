@@ -10,17 +10,57 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
     <!--  
-        N_7.1: Reutilizamos el código de clases anteriores, pero esta vez en vez de imprimir un texto, se agrega una imagen dentro del div app.
+        N_7.1: Reutilizamos el código de clases anteriores, pero esta vez en vez de imprimir un texto, se agrega una imagen dentro 
+            del div app.
+
+        N_7.2: Se crea una etiqueta de prueba para probar la url de la imagen y comprobar si esta disponible.
     -->
-    <div id="app"></div>
+    <img src="https://fastly.picsum.photos/id/17/2500/1667.jpg?hmac=HD-JrnNUZjFiP2UZQvWcKrgLoC_pc_ouUSWv8kHsJJY" height="300" width="420" alt="">
+    
+    <div id="app">
+    </div>
     
     <script>
         const vm = Vue.createApp({
             data() {
+                /**
+                 * N_7.4: Se crea una variable llamada img, y dentro se le asigna la url de la imagen.
+                 * 
+                 * N_7.6: Se pueden agregar mas variables como propiedades de la imagen, por ejemplo, el texto descriptivo y el 
+                 *      ancho de la pantalla, que puede ser un numero en pixeles o en porcentaje.
+                 */
                 return {
-                    text: "<p>Hola con Vue</p>"
+                    img: "https://fastly.picsum.photos/id/17/2500/1667.jpg?hmac=HD-JrnNUZjFiP2UZQvWcKrgLoC_pc_ouUSWv8kHsJJY",
+                    alt: "una imagen random que encontré",
+                    width: "50%",
+                    // attr: "src",
+                    attr: "alt",
                 };
             },
+            /**
+             * N_7.3: La directiva v-bind permitirá modificar los valores de los atributos nativos de HTML. De esta forma estaremos 
+             *      creando una sintaxis declarativa de una variable dinámica.
+             * Como estamos utilizando directivas, tiene que ir dentro de un template de Vuejs.
+             * 
+             * N_7.5: Se crea el template y dentro la etiqueta <img> con la directiva v-bind que se enlazara a la variable img para 
+             *      obtener la url.
+             */
+            template: `<img v-bind:src="img" v-bind:alt="alt" v-bind:width="width" />`
+            
+            /**
+             * N_7.7: A partir de la version 3 de Vue, v-bind puede utilizar argumentos dinámicos, para utilizarlo, se debe utilizar 
+             *      corchetes [] y dentro, en vez de declarar código javascript o html, se puede utilizar un string.
+             * Se declaran los corchetes y dentro se agrega como cadena de texto, el valor a utilizar, que seria la url de la imagen.
+             * 
+             * N_7.8: Y no solo se puede utilizar una cadena de texto fija, sino que también se puede utilizar una variable.
+             * Dentro de data() se crea un nuevo atributo llamado "attr" y se le asigna el valor de la ruta "src".
+             * Luego dentro de los corchetes solo debo declarar la variable attr y la imagen debería cargar en el navegador.
+             * Se cambia el valor de la variable attr para ahora obtener el valor de alt. En el navegador se debería ver la url de 
+             *      la imagen.
+             */
+            // template: `<img v-bind:["src"]="img" />`
+            // template: `<img v-bind:[attr]="img" />`,
+            // template: `<img v-bind:[attr]="img" />`
         }).mount("#app");
         console.log(vm);
     </script>
