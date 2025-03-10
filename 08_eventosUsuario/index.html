@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08 - Eventos de Usuario</title>
+    <style>
+        .contador {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        button {
+            width: 40px;
+            margin: 0 10px;
+            padding: 8px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!--  
+        N_8.1: En esta clase crearemos un componente que escuche eventos. Se agregara un botón que producirá una acción, la cual sera contar los clic.
+    -->
+    <div id="app">
+    </div>
+    
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                /**
+                 * N_8.2: Se crea una variable counter para almacenar el valor del contador el cual se iniciara en cero.
+                 * 
+                 * N_8.11: Se crea una nueva variable para utilizar eventos de forma dinámica.
+                 */
+                return {
+                    counter: 0,
+                    evt: "submit.prevent",
+                };
+            },
+            /**
+             * N_8.4: methods es un objeto json {} en el que vamos a poder definir diferentes métodos o funciones y que luego podremos invocar dentro del componente.
+             * Dentro de methods se crea una función para incrementar el valor del contador. Como es una función debe llevar los paréntesis (). Dentro de la función se imprime un mensaje por consola.
+             * 
+             * N_8.6: Ahora volveremos reactivo al componente.
+             * Dentro de la función, utilizamos la palabra reservada "this" para hacer referencia a esta misma instancia del componente y asi poder acceder a los diferentes valores como funciones o variables del componente.
+             * 
+             * N_8.9: en la función submitForm() cada vez que haga click en el botón el navegador se va a recargar, ya que ese es el comportamiento normal del evento submit.
+             * Para detenerlo, se puede crear una variable que reciba el llamado y luego detener el comportamiento normal. Sin embargo Vue cuenta con sus propios modificadores para utilizar dentro de sus directivas.
+             */
+            methods: {
+                increment() {
+                    // console.log("Se hace click!");
+                    this.counter++;
+                },
+                submitForm() { // (e)
+                    // e.preventDefault()
+                    console.log("Se hace clic en el botón del formulario")
+                    this.counter++;
+                },
+                decrement() {
+                    this.counter--;
+                }
+            },
+            /**
+             * N_8.3: Se crea un template para agregar un botón y dentro el contador.
+             * Utilizamos una nueva directiva llamada v-on la cual se utiliza para escuchar eventos de usuario.
+             * Para utilizarlo, se declara v-on: y el nombre del evento, que en este caso sera click. Ademas, podemos agregar un atributo que sera la función que se ejecutara, sin embargo, no puede ser una función de javascript común y corriente, sino que debe estar dentro del alcance de lo que Vue puede hacer. Por lo que se puede agregar una propiedad nueva dentro de createApp() llamada "methods".
+             * 
+             * N_8.5: Dentro del template, en la directiva v-on se agrega el nombre de la función para poder ejecutarla.
+             * 
+             * N_8.7: Con la directiva v-on se puede escuchar cualquier evento, por ejemplo se puede utilizar el evento keyup para que el contador aumente cada vez que se presione una tecla y se levante el dedo.
+             * 
+             * N_8.8: Otro de los eventos que se puede escuchar es "submit" el cual es utilizado en los formularios para enviar la información. Ademas se puede detener el comportamiento por defecto, agregando el prevent default().
+             * Se crea un nuevo template, utilizando las etiquetas <form> y se crea una nueva función de prueba.
+             * 
+             * N_8.10: Para utilizar el modificador preventDefault directamente en la directiva, se hará como indica la documentación oficial de Vue JS, se agrega el modificador ".prevent" al lado del evento submit.
+             */
+            // template: `<button v-on:click="increment">{{ counter }}</button>`,
+            // template: `<button v-on:keyup="increment">{{ counter }}</button>`,
+            // template: `<form v-on:submit="submitForm"><button>{{ counter }}</button></form>`,
+            // template: `<form v-on:submit.prevent="submitForm"><button>{{ counter }}</button></form>`,
+            // template: `<form v-on:[evt]="submitForm"><button>{{ counter }}</button></form>`,
+            template:`<div class="contador">
+                        <button v-on:click="increment">+</button>
+                        <h2>{{ counter }}</h2>
+                        <button v-on:click="decrement">-</button>
+                    </div>`,
+        }).mount("#app");
+        console.log(vm);
+    </script>
+</body>
+</html>
+
+<!-- 
+    RETO DE CLASE:
+    Crear un código para poder tener un contador que permita incrementar y decremental el valor.
+-->
