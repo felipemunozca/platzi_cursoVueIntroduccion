@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>09 - Inputs Reactivos</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!--  
+        N_9.1: En esta clase se realizara un componente con reactividad para utilizar los inputs del usuario y la salida de datos 
+            para renderizarlos en la vista.
+    -->
+    <div id="app"></div>
+    
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                /**
+                 * N_9.2: Se crea una variable para almacenar un texto. Se le agrega un texto base para presentar en pantalla.
+                 */
+                return {
+                    text: "Hola Vue"
+                };
+            },
+            methods: {
+                newInput(e) {
+                    console.log(e.target.value)
+                    this.text = e.target.value;
+                }
+            },
+            /**
+             * N_9.3: Se crea el template base para mostrar el texto con una etiqueta <h2>.
+             * 
+             * N_9.4: Ahora se agrega un input de texto. La primera opción que utilizaremos es utilizar la directiva v-on para 
+             *      escuchar el evento change y que mediante una función se modifique el texto de la etiqueta <h2>.
+             * 
+             * N_9.5: Con las directivas de Vue se puede realizar el mismo ejercicio utilizando v-on y v-bind.
+             * Con v-on se ejecutara la función para poder reescribir el texto y con v-bind se podrá obtener el texto guardado en 
+             *      la variable text.
+             * Pero escribir esto mismo en un formulario largo puede ser agotador y repetitivo, por lo que se pueden utilizar alias 
+             *      para recortar las palabras, por ejemplo:
+             * v-on -> @
+             * v-bind -> :
+             * 
+             * N_9.6: Pero Vue ya cuenta con una directiva que permite detectar el cambio sin necesidad de crear una función.
+             * La directiva v-model que permite leer y editar el contenido de una variable de forma directa.
+             * 
+             */
+
+            // template: `
+            //     <h2>{{ text }}</h2>
+            //     <input type="text" v-on:change="newInput"/>
+            // `,
+            // template: `
+            //     <h2>{{ text }}</h2>
+            //     <input type="text" v-on:input="newInput" v-bind:value="text" />
+            // `,
+            // template: `
+            //     <h2>{{ text }}</h2>
+            //     <input type="text" @input="newInput" :value="text" />
+            // `,
+            template: `
+                <h2>{{ text }}</h2>
+                <input type="text" v-model="text"/>
+            `,
+        }).mount("#app");
+    </script>
+</body>
+</html>
+<!--
+    DATO IMPORTANTE:
+    Para utilizar los alias en VueJS, considerara los siguientes casos:
+
+        Atributos -> :
+
+        Eventos -> @
+-->

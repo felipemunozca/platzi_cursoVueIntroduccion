@@ -23,7 +23,8 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     
     <!--  
-        N_8.1: En esta clase crearemos un componente que escuche eventos. Se agregara un botón que producirá una acción, la cual sera contar los clic.
+        N_8.1: En esta clase crearemos un componente que escuche eventos. Se agregara un botón que producirá una acción, la cual 
+            sera contar los clic.
     -->
     <div id="app">
     </div>
@@ -42,14 +43,19 @@
                 };
             },
             /**
-             * N_8.4: methods es un objeto json {} en el que vamos a poder definir diferentes métodos o funciones y que luego podremos invocar dentro del componente.
-             * Dentro de methods se crea una función para incrementar el valor del contador. Como es una función debe llevar los paréntesis (). Dentro de la función se imprime un mensaje por consola.
+             * N_8.4: methods es un objeto json {} en el que vamos a poder definir diferentes métodos o funciones y que luego 
+             *      podremos invocar dentro del componente.
+             * Dentro de methods se crea una función para incrementar el valor del contador. Como es una función debe llevar los 
+             *      paréntesis (). Dentro de la función se imprime un mensaje por consola.
              * 
              * N_8.6: Ahora volveremos reactivo al componente.
-             * Dentro de la función, utilizamos la palabra reservada "this" para hacer referencia a esta misma instancia del componente y asi poder acceder a los diferentes valores como funciones o variables del componente.
+             * Dentro de la función, utilizamos la palabra reservada "this" para hacer referencia a esta misma instancia del 
+             *      componente y asi poder acceder a los diferentes valores como funciones o variables del componente.
              * 
-             * N_8.9: en la función submitForm() cada vez que haga click en el botón el navegador se va a recargar, ya que ese es el comportamiento normal del evento submit.
-             * Para detenerlo, se puede crear una variable que reciba el llamado y luego detener el comportamiento normal. Sin embargo Vue cuenta con sus propios modificadores para utilizar dentro de sus directivas.
+             * N_8.9: en la función submitForm() cada vez que haga click en el botón el navegador se va a recargar, ya que ese es 
+             *      el comportamiento normal del evento submit.
+             * Para detenerlo, se puede crear una variable que reciba el llamado y luego detener el comportamiento normal. Sin 
+             *      embargo Vue cuenta con sus propios modificadores para utilizar dentro de sus directivas.
              */
             methods: {
                 increment() {
@@ -68,16 +74,22 @@
             /**
              * N_8.3: Se crea un template para agregar un botón y dentro el contador.
              * Utilizamos una nueva directiva llamada v-on la cual se utiliza para escuchar eventos de usuario.
-             * Para utilizarlo, se declara v-on: y el nombre del evento, que en este caso sera click. Ademas, podemos agregar un atributo que sera la función que se ejecutara, sin embargo, no puede ser una función de javascript común y corriente, sino que debe estar dentro del alcance de lo que Vue puede hacer. Por lo que se puede agregar una propiedad nueva dentro de createApp() llamada "methods".
+             * Para utilizarlo, se declara v-on: y el nombre del evento, que en este caso sera click. Ademas, podemos agregar un 
+             *      atributo que sera la función que se ejecutara, sin embargo, no puede ser una función de javascript común y 
+             *      corriente, sino que debe estar dentro del alcance de lo que Vue puede hacer. Por lo que se puede agregar una 
+             *      propiedad nueva dentro de createApp() llamada "methods".
              * 
              * N_8.5: Dentro del template, en la directiva v-on se agrega el nombre de la función para poder ejecutarla.
              * 
-             * N_8.7: Con la directiva v-on se puede escuchar cualquier evento, por ejemplo se puede utilizar el evento keyup para que el contador aumente cada vez que se presione una tecla y se levante el dedo.
+             * N_8.7: Con la directiva v-on se puede escuchar cualquier evento, por ejemplo se puede utilizar el evento keyup para 
+             *      que el contador aumente cada vez que se presione una tecla y se levante el dedo.
              * 
-             * N_8.8: Otro de los eventos que se puede escuchar es "submit" el cual es utilizado en los formularios para enviar la información. Ademas se puede detener el comportamiento por defecto, agregando el prevent default().
+             * N_8.8: Otro de los eventos que se puede escuchar es "submit" el cual es utilizado en los formularios para enviar la 
+             *      información. Ademas se puede detener el comportamiento por defecto, agregando el prevent default().
              * Se crea un nuevo template, utilizando las etiquetas <form> y se crea una nueva función de prueba.
              * 
-             * N_8.10: Para utilizar el modificador preventDefault directamente en la directiva, se hará como indica la documentación oficial de Vue JS, se agrega el modificador ".prevent" al lado del evento submit.
+             * N_8.10: Para utilizar el modificador preventDefault directamente en la directiva, se hará como indica la 
+             *      documentación oficial de Vue JS, se agrega el modificador ".prevent" al lado del evento submit.
              */
             // template: `<button v-on:click="increment">{{ counter }}</button>`,
             // template: `<button v-on:keyup="increment">{{ counter }}</button>`,
