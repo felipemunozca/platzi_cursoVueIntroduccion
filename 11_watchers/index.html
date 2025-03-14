@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11 - Watchers</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!--  
+        N_11.1: En esta clase revisaremos como utilizar la propiedad watcher para escuchar la reactividad de cada vez que 
+            cambie el valor de una variable.
+        Para esto, creamos un botón que al presionarlo, cambie un texto.
+    -->
+    <div id="app"></div>
+    
+    <script>
+        const vm = Vue.createApp({
+            /**
+             * N_11.5: Se crea un nuevo texto que posteriormente cambiara con un if.
+             * Se crea una nueva variable "open" la cual almacenara un valor booleano.
+             */
+            data() {
+                return {
+                    // text: "Hola Vue",
+                    text: "Puerta Cerrada 🚪",
+                    open: false
+                };
+            },
+            /**
+             * N_11.2: Los watchers se declaran dentro de la propiedad watch:{} .
+             * Como regla, el watcher tiene que tener el mismo nombre de la variable que quieres escuchar.
+             * También es importante recordar no hacer watchers demasiado complejos, es importa que solo haga UNA COSA.
+             * Se crea una función text() que se ejecutara cada vez que se cambie el texto de la variable.
+             * En la ventana del navegador, abrir la consola y escribir:
+             *      > vm.text = "Nuevo texto";
+             * Si se presiona la tecla enter, cambiara el texto de la variable y se imprimirá el mensaje en la consola.
+             * 
+             * N_11.3: ¿Qué mas puedo hacer con el watcher?
+             * Puede recibir un par de atributos como por ejemplo "value" que sera el valor que se le acaba de asignar a la variable.
+             * Se utiliza la propiedad value para imprimirla en la consola, repitiendo los pasos del punto anterior.
+             * 
+             * N_11.4: Otro valor que se puede recibir, es el valor anterior que tenia antes de modificarse.
+             * Se declara la variable "old" para leer el valor antiguo para luego poder imprimirlo en la consola.
+             * En la consola del navegador ejecuto el comando:
+             *      >vm.text = "Texto nuevo";
+             * 
+             * N_11.6: Se crea una nueva función para manejar el estado de una variable.
+             * Se utiliza la condición if() para validar el estado:
+             * Si el valor es verdadero, el texto sera Puerta Abierta.
+             * En caso contrario, el texto sera Puerta Cerrada.
+             */
+            watch: {
+                text(value, old) {
+                    console.log("Aplicando watchers!", value, old);
+                },
+                open(value) {
+                    if (value) {
+                        this.text = "Puerta Abierta";
+                    } else {
+                        this.text = "Puerta Cerrada 🚪";
+                    }
+                }
+            },
+            /**
+             * N_11.8: Para limpiar un poco el código del botón, se crea una propiedad computada para ejecutar el if ternario 
+             *      y asi retornar el texto que tendrá el botón.
+             */
+            computed: {
+                label() {
+                    return this.open ? "Cerrar" : "Abrir";
+                }
+            },
+            /**
+             * N_11.7: Se crea el template para mostrar el texto dentro de una etiqueta <div>.
+             * Se agrega un botón con un texto que dependerá si esta abierta o cerrada la puerta mediante un if ternario 
+             *      directo en el botón. Finalmente se agrega el evento clic para accionar el cambio, seguido de una sentencia 
+             *      de javascript para preguntar si open es distinto de open.
+             */
+            // template: `
+            //     <div>{{ text }}</div>
+            //     <button @click="open = !open">{{ open ? "Cerrar" : "Abrir" }}</button>    
+            // `,
+            template: `
+                <div>{{ text }}</div>
+                <button @click="open = !open">{{ label }}</button>
+            `,
+        }).mount("#app");
+    </script>
+</body>
+</html>
