@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 - Propiedades Computadas</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!--  
+        N_10.1: En esta clase se creara un template para imprimir el nombre y apellido de una persona.
+    -->
+    <div id="app"></div>
+    
+    <script>
+        const vm = Vue.createApp({
+            /**
+             * N_10.2: Se declaran dos variables, una para el nombre y otra para el apellido y se les agrega un valor inicial 
+             *      del nombre del estudiante.
+             * 
+             * N_10.4: Se crea una nueva variable para obtener la fecha y hora de hoy en un formato estándar de javascript. 
+             */
+            data() {
+                return {
+                    firstName: "Felipe",
+                    lastName: "Muñoz",
+                    now: new Date(),
+                };
+            },
+            /**
+             * N_10.5: Las propiedades computadas se utilizan para crear nuevas variables que dependerá de una o mas variables 
+             *      base y las va a transformar y devolver un nuevo valor.
+             * Se crea una función llamada fullname() la cual retornara el nombre y apellido concatenado.
+             * 
+             * N_10.7: Se crea una nueva propiedad computada para manejar la fecha.
+             * Se retorna el valor de la fecha utilizando el método toLocaleDateString() el cual se utiliza para formatear la 
+             *      fecha al formato local.
+             *      Por ejemplo:14-03-2025
+             * 
+             * N_10.9: Una buena forma de definir un método de una computada seria:
+             * Methods == Lógica de eventos
+             * Computed == Lógica de data en general
+             */
+            computed: {
+                fullName() {
+                    return this.firstName + " " + this.lastName;
+                },
+                today() {
+                    return this.now.toLocaleDateString();
+                }
+            },
+            /**
+             * N_10.3: Se crea un template para imprimir el nombre y el apellido directamente, pero sin concatenar los valores.
+             * 
+             * N_10.6: Ahora se puede llamar a la función computada directamente desde el template.
+             * 
+             * N_10.8: Se agrega la función computada para imprimir la fecha en el template.
+             */
+            // template: `
+            //     <div>{{ firstName }} {{ lastName }}</div>
+            // `,
+            // template: `
+            //     <div>{{ firstName }} {{ lastName }}</div>
+            //     <div>{{ now }}</div>
+            // `,
+            template: `
+                <div>{{ fullName }}</div>
+                <div>{{ today }}</div>
+            `,
+        }).mount("#app");
+    </script>
+</body>
+</html>
