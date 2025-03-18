@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13 - Condicionales</title>
+    <style>
+        html, body {
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #app, .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+        button {
+            margin-top: 24px;
+            border: none;
+            background-color: white;
+            padding: 8px 24px;
+            border-radius: 12px;
+        }
+        .closed {
+            background-color: #eca1a6;
+        }
+        .open {
+            background-color: #b5e7a0;
+        }
+        input {
+            padding: 8px;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!--  
+        N_13.1: Continuamos con el diseño de la clase anterior, mantendremos el mismo CSS pero la estructura del html sera como 
+            un formulario para iniciar y cerrar sesión.
+    -->
+    <div id="app"></div>
+    
+    <script>
+        const vm = Vue.createApp({
+            /**
+             * N_13.5: Se crea la variable username que almacenara el nombre escrito en el input. Se debe iniciar con un valor 
+             *      vació para que funcione.
+             */
+            data() {
+                return {
+                    text: "Accede a tu cuenta",
+                    open: false,
+                    username: ""
+                };
+            },
+            /**
+             * N_13.6: Cuando se salga de la vista, se limpia el valor de username para hacer que vuelva a la pantalla principal 
+             *      con el input en blanco.
+             */
+            watch: {
+                open(value) {
+                    if (value) {
+                        this.text = "Cierra sesión";
+                    } else {
+                        this.text = "Accede a tu cuenta";
+                        this.username = "";
+                    }
+                }
+            },
+            /**
+             * N_13.2: Se realiza un cambio en la función computada label() para ahora simular palabras que hagan sentido con un login.
+             * Las propiedades CSS de la función styles() se mantienen iguales.
+             */
+            computed: {
+                label() {
+                    return this.open ? "Salir" : "Acceder";
+                },
+                styles() {
+                    return this.open ? ['open'] : ['closed'];
+                }
+            },
+            /**
+             * N_13.3: Utilizamos una nueva directiva llamada v-if y v-else y su funcionamiento es igual al código en javascript, 
+             *      una condición que debe cumplirse para que pase algo, en caso contrario, pasara otra cosa.
+             * SI v-if es distinto de open, se mostrara el texto Acceder.
+             * En caso contrario, se mostrara Salir.
+             */
+            // template: `
+            //     <div class="container" :class="styles">
+            //         <h2>{{ text }}</h2>
+            //         <button @click="open = !open">
+            //             <div v-if="!open">Acceder</div>
+            //             <div v-else>Salir</div>
+            //         </button>
+            //     </div>
+            // `,
+            /**
+             * N_13.4: Se agrega una nueva condición v-if y v-else utilizando nuevos div para solicitar un nombre de usuario.
+             * SI la condición es igual a "open", se agrega una etiqueta <p> para mostrar el nombre que se escriba.
+             * En caso contrario se mostrara un input que solicite escribir un nombre y mediante un v-model se guarda el valor en 
+             *      una variable "username".
+             */
+            template: `
+                <div class="container" :class="styles">
+                    <h2>{{ text }}</h2>
+                    <div v-if="open">
+                        <p>Hola, {{ username }}</p>
+                    </div>
+                    <div v-else>
+                        <div>Username</div>
+                        <input type="text" v-model="username" />    
+                    </div>
+                    <button @click="open = !open">
+                        <div v-if="!open">Acceder</div>
+                        <div v-else>Salir</div>
+                    </button>
+                </div>
+            `,
+        }).mount("#app");
+    </script>
+</body>
+</html>
