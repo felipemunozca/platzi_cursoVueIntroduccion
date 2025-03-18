@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 - Estilos Reactivos</title>
+    <style>
+        /**
+         * N_12.3: El profesor facilita los siguientes estilos CSS para utilizar en esta clase, se copian desde los recursos 
+         *      de la clase.
+         * Se le asignan clases al body, al contenedor y al botón.
+         * Se agregan dos clases: "open" y "closed" para cambiarlas utilizando Vue.
+         */
+        html, body {
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #app, .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+        button {
+            margin-top: 24px;
+            border: none;
+            background-color: white;
+            padding: 8px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .closed {
+            background-color: #eca1a6;
+        }
+        .open {
+            background-color: #b5e7a0;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!--  
+        N_12.1: En esta clase mantendremos el contenido de la clase anterior, solo se agregara interacción para cambiar los 
+            estilos CSS con un botón.
+    -->
+    <div id="app"></div>
+    
+    <script>
+        const vm = Vue.createApp({
+            /**
+             * N_12.4: Se agrega una nueva variable llamada styles el cual sera un objeto json { } y dentro se define que el 
+             *      color de fondo sera gris.
+             * IMPORTANTE: Como estamos utilizando un formato json, el color debe ir asignado como una cadena de texto, por lo 
+             *      que debe ir entre comillas.
+             */
+            data() {
+                return {
+                    text: "Puerta cerrada",
+                    open: false,
+                    // styles: {
+                    //     backgroundColor: "#e5e5e5",
+                    // }
+                };
+            },
+            watch: {
+                open(value) {
+                    if (value) {
+                        this.text = "Puerta Abierta";
+                    } else {
+                        this.text = "Puerta Cerrada";
+                    }
+                }
+            },
+            /**
+             * N_12.8: Se crea una función computada styles() que mediante un if ternario retornara el nombre de la clase 
+             *      open o closed.
+             */
+            computed: {
+                label() {
+                    return this.open ? "Cerrar" : "Abrir";
+                },
+                styles() {
+                    return this.open ? ['open'] : ['closed'];
+                }
+            },
+            /**
+             * N_12.2: Se envuelven las etiquetas del template de la clase pasada en un div y se le agrega la clase container.
+             * 
+             * N_12.5: utilizando la directiva v-bind de forma directa, es decir, solo colocando los dos puntos : se asigna a 
+             *      style el objeto json creado en data.
+             */
+            // template: `
+            //     <div class="container" :style="styles">
+            //         <h2>{{ text }}</h2>
+            //         <button @click="open = !open">{{ label }}</button>
+            //    </div>
+            // `,
+            /**
+             * N_12.6: Se utiliza el atributo :class para asi utilizar y reutilizar clases de CSS y asi tener un código mas limpio.
+             * Se declara el atributo :class y se le puede asignar un objeto json o un arreglo con las clases a utilizar, por ejemplo:
+             * <div class="container" :class="['open']">
+             * IMPORTANTE: Si se usa de esta forma, la clase debe ser declarada dentro de comillas simples ' ' para que lo lea 
+             *      el compilador.
+             * 
+             * N_12.7: Pero cambiar las clases directamente con el atributo class solo se podría mediante la creación de una función 
+             *      computada, por lo que se quita la clase y se vuelve a declarar la variable styles.
+             */
+            template: `
+                <div class="container" :class="styles">
+                    <h2>{{ text }}</h2>
+                    <button @click="open = !open">{{ label }}</button>
+                </div>
+            `,
+        }).mount("#app");
+    </script>
+</body>
+</html>
