@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14 - Listas</title>
+    <style>
+        html, body {
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #app, .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+        button {
+            margin-top: 24px;
+            border: none;
+            background-color: white;
+            padding: 8px 24px;
+            border-radius: 12px;
+        }
+        .closed {
+            background-color: #eca1a6;
+        }
+        .open {
+            background-color: #b5e7a0;
+        }
+        .list {
+            display: flex;
+            flex-direction: column;
+        }
+        .item {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        .title {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!--  
+        N_14.1: Continuamos desarrollando el mismo ejercicio de la clase anterior. Esta vez se le agregara el uso de listas para 
+            renderizar información desde un json.
+    -->
+    <div id="app"></div>
+    
+    <script>
+        const vm = Vue.createApp({
+            /**
+             * N_14.3: Se crea una variable posts que estará definida como un arreglo, y dentro se declara un objeto de todos los 
+             *      post que pudo realizar un usuario.
+             */
+            data() {
+                return {
+                    text: "Accede a tu cuenta",
+                    open: false,
+                    username: "",
+                    posts: [{
+                        title: "Titulo 1",
+                        description: "Lorem ipsum..."
+                    }, {
+                        title: "Titulo 2",
+                        description: "Lorem ipsum..."
+                    }, {
+                        title: "Titulo 3",
+                        description: "Lorem ipsum..."
+                    }, {
+                        title: "Titulo 4",
+                        description: "Lorem ipsum..."
+                    }]
+                };
+            },
+            watch: {
+                open(value) {
+                    if (value) {
+                        this.text = "Cierra sesión";
+                    } else {
+                        this.text = "Accede a tu cuenta";
+                        this.username = "";
+                    }
+                }
+            },
+            computed: {
+                label() {
+                    return this.open ? "Salir" : "Acceder";
+                },
+                styles() {
+                    return this.open ? ['open'] : ['closed'];
+                }
+            },
+            /**
+             * N_14.2: Suponiendo que la persona ya inicio sesión, en su "pagina de inicio", bajo el nombre de usuario, se agregara 
+             *      un post como se si tratara de una red social.
+             * Se agrega un div con la clase list.
+             * Se agrega otro div con la clase item y dentro se utiliza la directiva v-for que nos permitirá recorrer una lista o 
+             *      un objeto en javascript que este definido dentro de data o computed.
+             * 
+             * N_14.4: La sintaxis para ocupar v-for es igualando a "item in posts" para recorrer el arreglo y asi luego poder 
+             *      obtener e imprimir los valores de item.title y de item.description.
+             * 
+             * N_14.5: En el caso de querer editar o eliminar un atributo de la lista, se pueden diferenciar utilizando un atributo 
+             *      llamado "key".
+             * Al atributo :key SIEMPRE se le debe pasar algo, un identificador único de ese elemento, en este caso podría ser el 
+             *      title o el description, pero también podemos utilizar una sintaxis para obtener el index del elemento. Se envuelve 
+             *      el valor (item) en paréntesis y se declara una nueva variable "i" que almacenara el valor del index y se utilizara 
+             *      como valor de key.
+             */
+            template: `
+            <div class="container" :class="styles">
+                <h2>{{ text }}</h2>
+                <div v-if="open">
+                    <p>Hola, {{ username }}</p>
+                    <div class="list">
+                        <div v-for="(item, i) in posts" :key="i" class="item">
+                            <div class="title">{{ item.title }}</div>
+                            <p>{{ item.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div v-else>
+                    <div>Username</div>
+                    <input type="text" v-model="username" />    
+                </div>
+                <button @click="open = !open">
+                    <div v-if="!open">Acceder</div>
+                    <div v-else>Salir</div>
+                </button>
+            </div>
+            `
+        }).mount("#app");
+    </script>
+</body>
+</html>
