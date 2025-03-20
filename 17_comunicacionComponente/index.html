@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>17 - Comunicación de componente padre a hijo</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <div id="app"></div>
+    
+    <script>
+        const app = Vue.createApp({
+            /**
+             * N_17.5: Se crea una lista de items en formato arreglo.
+             * 
+             * N_17.10: Dentro del arreglo items se agregan dos comas al final del array.
+             * Estas comas se utilizan para agregar un valor mas al arreglo, pero en este momento esta vació.
+             * Entonces cuando se cargue la vista y vea que existe un valor vació sera reemplazado por el texto por defecto del 
+             *      componente.
+             */
+            data() {
+                return {
+                    // items: ["uno", "dos", "tres"],
+                    items: ["uno", "dos", "tres", ,]
+                };
+            },
+            /**
+             * N_17.1: Se crea un template raíz el cual sera una lista <ul> y se le agregan 3 elementos de prueba.
+             * 
+             * N_17.3: Se le asigna el nombre del componente a las que eran las etiquetas <li> para asi cargar el contenido 
+             *      utilizando slots.
+             * 
+             * N_17.4: Otra forma de mejorar el código seria utilizando la directiva v-for para recorrer un arreglo u objeto con 
+             *      la información a imprimir en la vista.
+             * Se agrega v-for e iterara sobre todos los elementos "item en la lista items" y mostrara el nombre del item.
+             */
+            // template: `
+            //     <ul>
+            //         <li>Item 1</li>
+            //         <li>Item 2</li>
+            //         <li>Item 3</li>
+            //     </ul>
+            // `,
+            // template: `
+            //     <ul>
+            //         <v-item>Item 1 slot</v-item>
+            //         <v-item>Item 2 slot</v-item>
+            //         <v-item>Item 3 slot</v-item>
+            //     </ul>
+            // `,
+            // template: `
+            //     <ul>
+            //         <v-item v-for="item in items">{{ item }}</v-item>
+            //     </ul>
+            // `,
+            
+            /**
+             * N_17.7: ¿Que pasaría si tuviera un componente mas complejo? Por ejemplo agregar una configuración adicional o que 
+             *      todos los elementos de la lista sean botones que van a recibir atributos. Para esto, se puede utilizar la 
+             *      directiva v-bind.
+             * Se declara la directiva v-bind seguida del nombre del atributo que sera text.
+             */
+            template: `
+                <ul>
+                    <v-item v-for="item in items" v-bind:text="item"></v-item> 
+                </ul>
+            `
+        });
+
+        /**
+         * N_17.2: Si quisiera agregarle mas funcionalidad a la lista, podría crear un componente padre.
+         * El componente se llamara v-item y dentro solo tendrá el valor de una etiqueta <li> y dentro un slot para agregar el 
+         *      contenido.
+         */
+        // app.component("v-item", {
+        //     template: `<li><slot></slot></li>`
+        // });
+
+        /**
+         * N_17.8: Si se utiliza un v-bind para obtener los textos, se puede quitar los <slot> y realizar una interpolación para 
+         *      agregar text.
+         * Ademas se deba agregar la propiedad "props" y se declara como una lista (arreglo) de text.
+         * 
+         * N_17.9: Otra forma de declarar props es en vez de declararlo como una lista, se puede hacer utilizando un objeto.
+         * Se declara la variable text y se le puede asignar de que tipo es, en este caso sera String.
+         * Ademas del tipo de datos, se pueden configurar otras propiedades. Por ejemplo, se puede generar un valor por defecto 
+         *      cuando queda un elemento sin su texto correspondiente.
+         */
+        // app.component("v-item", {
+        //     props: ["text"],
+        //     template: `<li>{{ text }}</li>`
+        // });
+        app.component("v-item", {
+            props: {
+                // text: String,
+                text: {
+                    default: "Texto vació"
+                }
+            },
+            template: `<li>{{ text }}</li>`
+        });
+
+        const vm = app.mount("#app");
+
+    </script>
+</body>
+</html>
