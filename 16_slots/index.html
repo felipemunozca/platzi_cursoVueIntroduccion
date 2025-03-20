@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16 - Slots</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!--  
+        N_16.1: En esta clase comenzaremos a ver slots.
+        Los slots sirven para aprovechar la sintaxis de HTML y utilizar nuestros componentes. Así como en HTML donde no todas las etiquetas son de contenido, si no que también existen etiquetas contenedoras.
+    -->
+    <div id="app"></div>
+    
+    <script>
+        const app = Vue.createApp({
+            /**
+             * N_16.2: Se crea una estructura de proyecto en Vue limpia, mantenemos las constantes app y vm separadas.
+             * Lo primero en agregar sera un template. Dentro tendrá la estructura de un div principal que dentro tendrá una etiqueta header y un div para el contenido principal.
+             * 
+             * N_16.5: Se edita el template para agregar el titulo desde la etiqueta v-header y que luego se reemplazara en <slot>.
+             * 
+             * N_16.6: Ademas de texto, se puede heredar cualquier etiqueta que este declarada en v-header y luego ser reemplazada en el slot.
+             */
+            // template: `
+            //     <div> 
+            //         <v-header></v-header>
+            //         <div>Lorem ipsum dolor sit amet.</div>
+            //     </div>
+            // `,
+            // template: `
+            //     <div> 
+            //         <v-header>Titulo con slot</v-header>
+            //         <div>Lorem ipsum dolor sit amet.</div>
+            //     </div>
+            // `,
+            // template: `
+            //     <div> 
+            //         <v-header>
+            //             <button>Titulo con slot en botón</button>
+            //         </v-header>
+            //         <div>Lorem ipsum dolor sit amet.</div>
+            //     </div>
+            // `,
+
+            /**
+             * N_16.8: Se actualiza el template, ahora utilizando el nuevo componente.
+             * Se utiliza una etiqueta especial de VueJS llamada <template> a la cual se le debe agregar el nombre del slot correspondiente declarándola como una directiva v-slot:
+             * Dentro de esta etiqueta se puede declarar tanto texto como otras etiquetas html o otros componentes de VueJS.
+             */
+            template: `
+                <div> 
+                    <v-layout>
+                        <template v-slot:header>
+                            <button>Titulo 3</button>
+                        </template>
+                        <template v-slot:content>
+                            Lorem ipsum dolor sit amet.
+                        </template>
+                    </v-layout>
+                </div>
+            `
+        });
+
+        /**
+         * N_16.3: Se comienzan a crear componentes en base a la estructura del template original.
+         * Por convención o buenas practicas, los componentes en VueJS se suele utilizar la sintaxis:v-nombreComponente.
+         * En este ejercicio se creara un componente para el header y se le asigna un titulo de forma fija.
+         * 
+         * N_16.4: Otra forma de realizar esta mismo ejemplo, es utilizando el tag <slot> el cual se declara como una etiqueta y su valor sera reemplazado con toda la información del hijo del componente padre v-header en createApp().
+         */
+        // app.component("v-header", {
+        //     template: `
+        //     <header>Titulo</header>
+        //     `
+        // });
+        // app.component("v-header", {
+        //     template: `
+        //     <header>
+        //         <slot></slot>
+        //     </header>
+        //     `
+        // });
+        
+        /**
+         * N_16.7: Y que sucede si se quiere tener mas de un slot dentro de un componente, se puede hacer hacer agregándole nombres únicos a cada slot. (Por defecto, el nombre de un slot es "default").
+         * Se crea un nuevo component().
+         */
+        app.component("v-layout", {
+            template: `
+            <header>
+                <slot name="header"></slot>    
+            </header>
+            <div>
+                <slot name="content"></slot>    
+            </div>
+            `
+        });
+
+        const vm = app.mount("#app");
+
+    </script>
+</body>
+</html>
