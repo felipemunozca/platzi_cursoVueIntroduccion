@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>18 - Comunicación de componente hijo a padre</title>
+    <style>
+        /**
+         * N_18.9: Le agrego un cambio al CSS para que en la lista aparezca un puntero y asi recordar que si hago clic, algo pasara.
+         */
+        li {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!--  
+        N_18.1: Continuamos con el ejercicio de clase anterior, esta vez veremos como utilizar componentes y lógica de hijos a padres.
+    -->
+    <div id="app"></div>
+    
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    items: ["uno", "dos", "tres"]
+                };
+            },
+            /**
+             * N_18.5: Se crea el método remove que recibirá como argumento el index de la lista.
+             * Se crea una constante la cual almacenara la nueva lista. Sera igual al valor de los elementos en "items" seguido 
+             *      del método filter() el cual tomara los elementos "el" y el indice "index" para crear una nueva lista CUANDO 
+             *      el index sea diferente de "i".
+             * Luego el resultado se guarda dentro de la variable "items" original.
+             */
+            methods: {
+                remove(i) {
+                    const items = this.items.filter((el, index) => index !== i);
+                    this.items = items;
+                }
+            },
+            /**
+             * N_18.3: Se reestructura la etiqueta <v-item> ya que VueJS permite cerrar una etiqueta por si sola con /> y sin 
+             *      necesidad de agregar una etiqueta de cierre.
+             * 
+             * N_18.4: Si se quiere modificar el valor de un componente, ya sea una cadena de texto, un objeto o una lista, el 
+             *      elemento padre puede no enterarse de que hubo un cambio, lo que produce que se pierda la reactividad, por lo 
+             *      que podemos emitir un evento para que el padre este escuchando cualquier cambio.
+             * Dentro del tag <v-item> se agrega un evento click que estará escuchando una función para remover un elemento de 
+             *      la lista.
+             * Se llama a una función remove (que luego se creara) y se le pasa el indice como parámetro para eliminar solo ese 
+             *      valor. Y dentro del v-for se agrega la variable "i" para obtener el indice de cada elemento con cada recorrido 
+             *      del ciclo.
+             */
+            // template: `
+            //     <ul>
+            //         <v-item
+            //             v-for="(item, i) in items"
+            //             v-bind:text="item"
+            //             v-on:click="remove(i)"
+            //         />
+            //     </ul>
+            // `,
+            /**
+             * N_18.6: ¿Que pasa cuando un elemento hijo le quiere mandar un cambio a un elemento padre?
+             * Se podria hacer de la siguiente manera, en vez de utilizar un elemento click, se podría utilizar un elemento custom, 
+             *      es decir, nuestro propio evento que escuche los cambios.
+             * Reutilizamos la función de remove en el elemento hijo y vamos a emitirlo al elemento padre.
+             * Para esto le voy a colocar cualquier nombre al evento, siempre y cuando no exista en JavaScript.
+             */
+            template: `
+                <ul>
+                    <v-item
+                        v-for="(item, i) in items"
+                        v-bind:text="item"
+                        v-on:quitar="remove(i)"
+                    />
+                </ul>
+            `,
+        });
+
+        /**
+         * N_18.2: A la variable texto se le quita su valor por defecto, en cambio, se le asigna el tipo String.
+         */
+        app.component("v-item", {
+            props: {
+                text: String
+            },
+            /**
+             * N_18.8: Se crea el método rm() la cual se encargara de que el elemento hijo emita el evento hasta el componente 
+             *      padre, para ello se utiliza la función this seguido del método $emit.
+             * Con este método voy a poder nombrar como primer argumento el nombre del evento que quiero emitir. De hecho se podría 
+             *      agregar un segundo argumento que podría contener el valor que se quiere transmitir, en este caso, no sera necesario.
+             */
+            methods: {
+                rm() {
+                    this.$emit("quitar");
+                }
+            },
+            /**
+             * N_18.7: Desde le template escucho un evento click con una función que luego creare para que llame a la función 
+             *      original remove().
+             */
+            template: `<li v-on:click="rm">{{ text }}</li>`
+        });
+
+        const vm = app.mount("#app");
+
+    </script>
+</body>
+</html>
