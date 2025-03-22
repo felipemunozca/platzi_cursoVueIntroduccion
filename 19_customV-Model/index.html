@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>19 - Custom V-model</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+
+    <div id="app"></div>
+    
+    <script>
+        const app = Vue.createApp({
+            /**
+             * N_19.4: Se agrega la propiedad data() y un texto para mostrar en el componente padre dentro de una etiqueta html.
+             */
+            data() {
+                return {
+                    text: "Hola Vue"
+                };
+            },
+            /**
+             * N_19.1: En esta clase crearemos un componente utilizando v-model.
+             * Lo primero sera crear el template del componente raíz. Sera una especie de formulario que pueda recibir datos y 
+             *      también mostrarlos.
+             * Se agrega un componente <v-input> que crearemos a continuación.
+             * 
+             * N_19.5: Se agrega la etiqueta <p> para mostrar el texto guardado en la variable text. Mas adelante haremos que este 
+             *      texto cambie con el valor escrito en el input.
+             * Se utiliza la directiva v-bind para para asignar el valor de la variable text.
+             */
+            // template: `
+            //     <div>
+            //         <p>{{ text }}</p>
+            //         <v-input v-bind:value="text" />
+            //     </div>
+            // `,
+            
+            /**
+             * N_19.10: Se actualiza el código de input, en vez de utilizar un v-bind para enlazar un valor, se puede utilizar un 
+             *      v-model y asignarle un nombre al atributo, el cual sera "value" y recibirá la variable sobre la cual va a 
+             *      actualizar, la cual sera text.
+             */
+            template: `
+                <div>
+                    <p>{{ text }}</p>
+                    <v-input v-model:value="text" />
+                </div>
+            `,
+            
+        });
+
+        /**
+         * N_19.2: Se crea el componente v-input.
+         * 
+         * N_19.6: Se declara el props y se asigna que value (el mismo de input) sera de tipo String.
+         */
+        app.component("v-input", {
+            props: {
+                value: String
+            },
+            /**
+             * N_19.9: Se crea la función updateInput() que recibirá como argumento el evento "e".
+             * Utilizo el this seguido del método $emit() y se le coloca un nombre del evento "update" (este nombre no se puede 
+             *      cambiar ya que asi funciona Vue) seguido de la variable que queremos sincronizar la cual es "value". Y como 
+             *      segundo parámetro el valor del argumento "e" apuntando al "target.value"
+             */
+            methods: {
+                updateInput(e) {
+                    this.$emit("update:value", e.target.value);
+                }
+            },
+            /**
+             * N_19.3: Se crea un template con un input nativo de html de tipo texto.
+             * 
+             * N_19.7: Se agrega la directiva v-bind para asignar el texto que tiene guardado value dentro de la propiedad de los 
+             *      input llamada también value.
+             * Si todo se escribió bien, el texto de de la variable text en data() aparecerá dentro del input.
+             * 
+             * N_19.8: Ahora lo que se escribe en el input, no se reflejado en la etiqueta <p> por lo que para hacer reactivo el 
+             *      texto, se puede utilizar la directiva v-on y crear una función propia que actualice el texto.
+             */
+            // template: `<input type ="text"/>`
+            // template: `<input type="text" v-bind:value="value" />`
+            template: `<input type="text" v-bind:value="value" v-on:input="updateInput" />`
+        });
+
+        const vm = app.mount("#app");
+
+    </script>
+</body>
+</html>
