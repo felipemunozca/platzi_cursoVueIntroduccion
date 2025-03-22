@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20 - Comunicación con Componentes Profundos</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!--  
+        N_20.1: En esta clase veremos los complementos profundos.
+        Un complemento profundo es cuando un componente NO ES directamente hijo de un componente padre.
+    -->
+    <div id="app"></div>
+    
+    <script>
+        const app = Vue.createApp({
+            /**
+             * N_20.3: Se crea una variable text que retorna un texto. (Lo mismo que hemos hecho en otras clases)
+             */
+            data() {
+                return {
+                    text: "Hola Vue"
+                };
+            },
+            /**
+             * N_20.6: Para poder proveer una porción de código, un texto, un mensaje o una función, se debe hacer desde el 
+             *      componente padre, declarando la propiedad provide().
+             * Por defecto el objeto provide no es reactivo, por lo que los cambios no siempre se ven de inmediato por lo tanto 
+             *      se debe realizar una sintaxis igual que en data() y declararlo como una función.
+             * Se declara provide y este retorna un objeto json con uno o mas textos, puede ser el mismo o uno nuevo. Se crea un 
+             *      nuevo mensaje para saludar. 
+             * 
+             * N_20.8: Otra cosa que podemos hacer, es hacer referencia a alguna variable que esta en data(), se crea una nueva 
+             *      variable llamada textoCopiado  que tendrá el mismo contenido de la variable text.
+             */
+            provide() {
+                return {
+                    nuevoTexto: "Saludos desde el componente ancestro",
+                    textoCopiado: this.text,
+                };
+            },
+            /**
+             * N_20.2: Creamos un template que tendrá un <div> y mostrara un texto que estará declarado en data().
+             * 
+             * N_20.3: Supongamos que ahora este componente tendrá un componente hijo llamado "otro"
+             */
+            template: `
+                <div>{{ text }}</div>
+                <otro />
+            `
+        });
+        
+        /**
+         * N_20.4: Se crea el componente hijo llamado otro.
+         * Supongamos que este "hijo" quiere mostrar un mensaje obtenido de un tercer componente, por lo que se crea el template y 
+         *      se declara la etiqueta <tercer> que se creara en otro componente a continuación.
+         */
+        app.component("otro", {
+            template: `<tercer />`
+        });
+
+        /**
+         * N_20.5: Se crea el tercer componente que sera hijo de <otro>.
+         * Se crea un template para mostrar un texto, que de momento, sera el mismo de la variable text.
+         * Ahora si abro este documento en el navegador, solo aparecerá una etiqueta con el texto, esto se debe a que aun se deben 
+         *      agregar propiedades.
+         * 
+         * N_20.7: Se declara la propiedad inject para poder obtener el valor que se esta enviando desde el componente abuelo, ya 
+         *      que este componente es el nieto.
+         * Se declara inject y se le asigna el valor de la variable nuevoTexto, luego esta se inyecta en el template para verlo en 
+         *      el navegador.
+         * 
+         * N_20.9: Se declara la nueva variable textoCopiado y luego se agrega al template.
+         */
+        app.component("tercer", {
+            // template: `<div>{{ text }}</div>`,
+            
+            // inject: ["nuevoTexto"],
+            // template: `<div>{{ nuevoTexto }}</div>`,
+            
+            inject: ["textoCopiado"],
+            template: `<div>{{ textoCopiado }}</div>`
+        });
+
+        const vm =  app.mount("#app");
+    </script>
+</body>
+</html>
