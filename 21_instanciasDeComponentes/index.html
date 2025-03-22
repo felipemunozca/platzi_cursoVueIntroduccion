@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21 - Instancias de Componentes</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    
+    <div id="app"></div>
+    
+    <script>
+        const app = Vue.createApp({
+            /**
+             * N_21.1: Creamos un proyecto básico de VueJS con el mismo texto que hemos utilizado en las demás clases.
+             */
+            data() {
+                return {
+                    text: "Hola Vue"
+                };
+            },
+            /**
+             * N_21.3: Se crea un template de un botón que en la etiqueta va a tener el texto guardado en la variable text. 
+             * 
+             * N_21.8: Se agrega el valor ref seguido de un nombre único para poder luego imprimirlo en la consola.
+             */
+            template: `<v-button ref="elemento" :label="text"></v-button>`
+        });
+
+        /**
+         * N_21.4: Se crea el componente v-button.
+         * Sera una etiqueta <button nativa de html y dentro tendrá el valor de la variable label.
+         * Para que la variable label pueda funcionar, se debe recibir desde el componente padre se debe utilizar un props y asignar 
+         *      el nombre de la variable dentro de llaves [].
+         */
+        app.component("v-button", {
+            props: ["label"],
+            template: `<button>{{ label }}</button>`
+        });
+
+        const vm = app.mount("#app");
+
+        /**
+         * N_21.2: Se agrega una impresión por consola para poder ver todo lo que contiene la constante vm. En el navegador, si se 
+         *      mueve dentro de los menu del objeto, se puede ver el texto de la variable text asi como muchas opciones mas que 
+         *      comienzan con el signo de peso $.
+         */
+        console.log(vm);
+        /**
+         * N_21.5: Otro valor que se puede imprimir en la consola es $root, que nos mostrara el árbol completo de opciones, es como 
+         *      se si imprimiera en consola la constante "app".
+         */
+        console.log(vm.$root);
+        /**
+         * N_21.6: Si quiero acceder al elemento html donde se monto el componente, puedo hacerlo mediante el valor $el.
+         */
+        console.log(vm.$el);
+        /**
+         * N_21.7: La propiedad $ref permite crear referencias especificas a un componente. Esta referencia debe ser unica dentro 
+         *      de toda la aplicación.
+         */
+        console.log(vm.$refs);
+        console.log(vm.$refs.elemento);
+        /**
+         * N_21.9: Finalmente, también se puede acceder a los props de un componente, solo se debe utilizar la propiedad $props.
+         */
+        console.log(vm.$props);
+    </script>
+</body>
+</html>
