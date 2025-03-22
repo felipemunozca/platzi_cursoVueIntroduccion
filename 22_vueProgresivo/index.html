@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>22 - Vue Progresivo</title>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    
+    <div id="app">{{ text }}</div>
+    
+    <script>
+        /**
+         * N_22.1: Se crea un proyecto básico de VueJS con un mensaje que se mostrara dentro de un div.
+         * Hasta el momento, todos los ejercicios vistos se han hecho utilizando el CDN de VueJS y el código se ha escrito dentro 
+         *      de las etiquetas <script> pero en los proyectos reales no siempre es asi, se puede utilizar npm para instalarlo como 
+         *      dependencia o utilizar vue-cli para crear un proyecto.
+         */
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    text: "Hola vue"
+                };
+            }
+        }).mount("#app");
+        console.log(vm);
+
+        /**
+         * Pasos para utilizar vue-cli.
+         * 1. Lo primero y mas importante, tener instalado node.js en el equipo, para poder realizar la instalación.
+         * 
+         * 2. Ir a la documentación oficial de vue-cli para realizar la instalación:
+         * > https://cli.vuejs.org/guide/installation.html
+         * 
+         * 3. Abrir una terminal, ya sea en VSC o en el PC y escribir el comando:
+         * > npm install -g @vue/cli
+         * Dar enter y comenzara a instalarse la herramienta.
+         * 
+         * 4. En la misma terminal se puede escribir vue y dar enter. Aparecerá un listado con todas las opciones y como utilizarlas.
+         * 
+         * 5. Con la terminal podremos crear un tipo de archivo que contenga componentes de Vue, lo que se conoce como Single File 
+         *      Components.
+         * En la misma carpeta del proyecto, crear un nuevo archivo llamado:
+         * > hola.vue
+         * Este archivo de extension .vue podrá tener 3 secciones:
+         *      - template
+         *      - script
+         *      - style 
+         * De esta manera podrás tener toda la lógica del archivo en un solo documento.
+         * 
+         * 6. Para poder ver el archivo en el navegador,antes es necesario agregar otra dependencia para crear un servidor local y 
+         *      levantar los proyectos. El comando es:
+         * > npm install -g @vue/cli-service-global
+         * AUN SE PUEDE INSTALAR EN 2025 aunque la mayoría de los paquetes están deprecados.
+         * 
+         * 7. Para levantar el archivo escribir el comando:
+         * > vue serve hola.vue
+         * ESTE COMANDO NO FUNCIONA EN 2025
+         */
+    </script>
+</body>
+</html>
